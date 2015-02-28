@@ -29,4 +29,4 @@ RUN python ./setup.py install
 
 ### Install simpleRouter
 WORKDIR /root
-RUN git clone https://github.com/ttsubo2000/simpleRouter.git
+RUN git clone https://github.com/ttsubo/simpleRouter.git

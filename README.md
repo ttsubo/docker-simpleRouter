@@ -11,7 +11,7 @@ Lagopusについては、raw socket版での動作を想定しており、DPDK�
 	DISTRIB_ID=Ubuntu
 	DISTRIB_RELEASE=14.04
 	DISTRIB_CODENAME=trusty
-	DISTRIB_DESCRIPTION="Ubuntu 14.04.1 LTS"
+	DISTRIB_DESCRIPTION="Ubuntu 14.04.2 LTS"
 
 Installation
 ==========
@@ -30,55 +30,54 @@ dockerの実行環境を作成します
 dockerバージョン情報が正しく表示されることを確認します。
 
 	$ docker version
-	Client version: 1.3.2
-	Client API version: 1.15
-	Go version (client): go1.3.3
-	Git commit (client): 39fa2fa
+	Client version: 1.5.0
+	Client API version: 1.17
+	Go version (client): go1.4.1
+	Git commit (client): a8a31ef
 	OS/Arch (client): linux/amd64
-	Server version: 1.3.2
-	Server API version: 1.15
-	Go version (server): go1.3.3
-	Git commit (server): 39fa2fa
+	Server version: 1.5.0
+	Server API version: 1.17
+	Go version (server): go1.4.1
+	Git commit (server): a8a31ef
 
 
 ### simple-routerイメージ作成
 simple-routerイメージを作成します。
 
 	$ sudo docker build -t simple-router --no-cache .
-	Sending build context to Docker daemon 25.09 kB
+	Sending build context to Docker daemon 124.4 kB
 	Sending build context to Docker daemon 
 	Step 0 : FROM ubuntu:14.04.1
 	 ---> 5ba9dab47459
 	Step 1 : ENV DEBIAN_FRONTEND noninteractive
-	 ---> Running in 3da3a9872760
-	 ---> a6e607d74051
-	Removing intermediate container 3da3a9872760
+	 ---> Running in 309dbe745cb2
+	 ---> b06b646eee0c
+	Removing intermediate container 309dbe745cb2
 	Step 2 : RUN apt-get update -y
-	 ---> Running in 08cc8e2572fe
+	 ---> Running in 0e292e13f733
 
 	(...snip)
 
-	Step 17 : RUN git clone https://github.com/ttsubo/simpleRouter.git
-	 ---> Running in e81dac2731cf
+	Step 22 : RUN git clone https://github.com/ttsubo/simpleRouter.git
+	 ---> Running in bc144d1b7f7d
 	Cloning into 'simpleRouter'...
-	 ---> 52772eebafca
-	Removing intermediate container e81dac2731cf
-	Successfully built 52772eebafca
+	 ---> 2cab84911d97
+	Removing intermediate container bc144d1b7f7d
+	Successfully built 2cab84911d97
 
 
 simple-routerイメージが作成されていれば、環境構築完了です。
 
-	$ docker images
+	tsubo@Docker:~/docker-simpleRouter$ docker images
 	REPOSITORY               TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
-	simple-router            latest              52772eebafca        5 minutes ago       847.1 MB
-	socketplane/docker-ovs   2.3.1               1395fc2eef47        13 days ago         33 MB
-	osrg/ryu                 latest              d62adb7efd39        13 days ago         293.2 MB
-	osrg/quagga              latest              0bbfdd10be15        3 weeks ago         245.7 MB
-	ubuntu                   14.04               5ba9dab47459        3 weeks ago         188.3 MB
-	ubuntu                   14.04.1             5ba9dab47459        3 weeks ago         188.3 MB
-	ubuntu                   latest              5ba9dab47459        3 weeks ago         188.3 MB
-	ubuntu                   trusty              5ba9dab47459        3 weeks ago         188.3 MB
- 
+	simple-router            latest              2cab84911d97        2 minutes ago       848.6 MB
+	ubuntu                   14.04               2d24f826cb16        7 days ago          188.3 MB
+	ubuntu                   14.04.2             2d24f826cb16        7 days ago          188.3 MB
+	ubuntu                   latest              2d24f826cb16        7 days ago          188.3 MB
+	ubuntu                   trusty              2d24f826cb16        7 days ago          188.3 MB
+	ubuntu                   trusty-20150218.1   2d24f826cb16        7 days ago          188.3 MB
+	socketplane/docker-ovs   2.3.1               1395fc2eef47        2 weeks ago         33 MB
+	ubuntu                   14.04.1             5ba9dab47459        4 weeks ago         188.3 MB
 
 
 Quick Start
@@ -100,13 +99,13 @@ Quick Start
 
 	$ docker ps
 	CONTAINER ID        IMAGE                  COMMAND             CREATED              STATUS              PORTS               NAMES
-	24cc3598f511        ubuntu:14.04           "/bin/bash"         59 seconds ago       Up 59 seconds                           pc2                 
-	74aafd853d94        ubuntu:14.04           "/bin/bash"         About a minute ago   Up 59 seconds                           pc1                 
-	ad53e8989657        simple-router:latest   "/bin/bash"         About a minute ago   Up About a minute                       GateSW2             
-	2d298822b643        simple-router:latest   "/bin/bash"         About a minute ago   Up About a minute                       GateSW1             
-	e490e8e7e580        simple-router:latest   "/bin/bash"         About a minute ago   Up About a minute                       RyuBGP3             
-	f5a786112f4e        simple-router:latest   "/bin/bash"         About a minute ago   Up About a minute                       RyuBGP2             
-	0110b4a510ad        simple-router:latest   "/bin/bash"         About a minute ago   Up About a minute                       RyuBGP1
+	98181aecd76d        ubuntu:14.04           "/bin/bash"         About a minute ago   Up About a minute                       pc2                 
+	fe44e761d379        ubuntu:14.04           "/bin/bash"         About a minute ago   Up About a minute                       pc1                 
+	c003539398c5        simple-router:latest   "/bin/bash"         3 minutes ago        Up 3 minutes                            GateSW2             
+	aaa2c575ee7a        simple-router:latest   "/bin/bash"         3 minutes ago        Up 3 minutes                            GateSW1             
+	69a9f425553e        simple-router:latest   "/bin/bash"         3 minutes ago        Up 3 minutes                            RyuBGP3             
+	290ceecc0423        simple-router:latest   "/bin/bash"         3 minutes ago        Up 3 minutes                            RyuBGP2             
+	8daa6e3852a5        simple-router:latest   "/bin/bash"         3 minutes ago        Up 3 minutes 
 
 Dockerコンテナにアクセスしてみます。
 
