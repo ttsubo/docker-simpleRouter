@@ -18,9 +18,15 @@ deploy_simpleRouter() {
     fi
 }
 
+deploy_testServer() {
+    local host_name=$1
+    docker run --name $host_name --privileged -h $host_name -itd test-server /bin/bash
+}
+
 run_host() {
     local host_name=$1
-    docker run --name $host_name --privileged -h $host_name -itd ubuntu /bin/bash
+    docker run --name $host_name --privileged -h $host_name -itd pc-term /bin/bash
+    docker exec $host_name /etc/init.d/ssh start
 }
 
 delete_bridge() {
@@ -60,6 +66,7 @@ case "$1" in
         create_link br301 eth7 RyuBGP1 192.168.101.102/30 4a:6e:0e:de:27:54
         create_link br204 eth8 RyuBGP1 192.168.104.101/30 ea:65:4c:20:a0:0f
         create_link br205 eth9 RyuBGP1 192.168.105.101/30 fa:f4:2b:84:89:c4
+        create_link br10 eth10 RyuBGP1 192.168.0.1/24
 
         # deploy for RyuBGP2
         deploy_simpleRouter RyuBGP2
@@ -74,6 +81,7 @@ case "$1" in
         create_link br302 eth7 RyuBGP2 192.168.102.102/30 5a:ae:88:4b:0a:3c
         create_link br304 eth8 RyuBGP2 192.168.104.102/30 ce:03:25:69:93:b7
         create_link br206 eth9 RyuBGP2 192.168.106.101/30 fe:bd:7e:9e:b3:0a
+        create_link br10 eth10 RyuBGP2 192.168.0.2/24
 
         # deploy for RyuBGP3
         deploy_simpleRouter RyuBGP3
@@ -86,6 +94,7 @@ case "$1" in
 
         create_link br305 eth6 RyuBGP3 192.168.105.102/30 ee:14:28:ab:49:77
         create_link br306 eth7 RyuBGP3 192.168.106.102/30 2a:04:c1:10:55:1e
+        create_link br10 eth8 RyuBGP3 192.168.0.3/24
 
         # deploy for GateSW1
         deploy_simpleRouter GateSW1
@@ -98,6 +107,7 @@ case "$1" in
 
         create_link br201 eth6 GateSW1 192.168.101.101/30 16:3f:1e:5b:32:c6
         create_link br203 eth7 GateSW1 192.168.103.101/30 66:1f:69:17:87:7a
+        create_link br10 eth8 GateSW1 192.168.0.4/24
 
         # deploy for GateSW2
         deploy_simpleRouter GateSW2
@@ -109,14 +119,21 @@ case "$1" in
 
         create_link br202 eth5 GateSW2 192.168.102.101/30 0e:33:97:af:11:81
         create_link br303 eth6 GateSW2 192.168.103.102/30 ca:cd:2d:46:e4:e8
+        create_link br10 eth7 GateSW2 192.168.0.5/24
 
         # deploy for pc1
         run_host pc1
         create_link br107 eth1 pc1 192.168.100.1/24@192.168.100.101
+        create_link br10 eth2 pc1 192.168.0.6/24
 
         # deploy for pc2
         run_host pc2
         create_link br100 eth1 pc2 192.168.201.101/24@192.168.201.102
+        create_link br10 eth2 pc2 192.168.0.7/24
+
+        # deploy for testServer
+        deploy_testServer TestServer
+        create_link br10 eth1 TestServer 192.168.0.100/24
 
 	;;
     stop)
