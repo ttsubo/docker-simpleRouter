@@ -127,8 +127,12 @@ Checking running of container list
 
 As a result, deploying virtual network for MPLS-VPN like this
 
-          (192.168.2.101)                                    (192.168.1.102)
-            ↓                                                ↓
+                                        TestServer
+                                         ↑
+                                         ↑
+                                         ↑ (bmp)
+          (192.168.2.101)                ↑                   (192.168.1.102)
+            ↓                            ↑                   ↓
            pc2 ---- BGP6 ---- BGP4 ---- BGP1 ---- BGP3 ---- pc1
                      |         |         |         |
                      \------- BGP5 ---- BGP2 ------/

@@ -29,6 +29,20 @@ run_simpleRouter() {
     docker exec $host_name bash -c "cd /root/simpleRouter/rest-client && ./post_interface.sh" > /dev/null
     docker exec $host_name sleep 5
     docker exec $host_name bash -c "cd /root/simpleRouter/rest-client && ./post_vrf.sh" > /dev/null
+    if [ $host_name = "BGP1" ]; then
+        docker exec $host_name bash -c "cd /root/simpleRouter/rest-client && ./post_start_bmpclient.sh" > /dev/null
+    fi
+}
+
+run_TestAutomation() {
+    local host_name=$1
+    docker exec $host_name echo "####################"
+    docker exec $host_name echo "start $host_name ..."
+    docker exec $host_name echo "####################"
+    docker exec $host_name sleep 5
+    docker exec $host_name bash -c "cd /root/Test_automation && ryu-manager testController.py" &
+    docker exec $host_name sleep 5
+    docker exec $host_name bash -c "cd /root/Test_automation/rest-client && ./regist_target.bat" &
 }
 
 set_redistributeConnect() {
@@ -184,8 +198,12 @@ case "$1" in
         run_simpleRouter BGP6
         sleep 30
 
+        # run for TestAutomation
+        run_TestAutomation TestServer
+
         # set redistributeConnect
         set_redistributeConnect BGP3
+        sleep 10
         set_redistributeConnect BGP6
 	;;
     stop)
