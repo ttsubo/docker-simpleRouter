@@ -9,7 +9,8 @@ check_user() {
 
 deploy_simpleRouter() {
     local host_name=$1
-    docker run --name $host_name --privileged -h $host_name -v $PWD/$1:/tmp -itd ttsubo/simple-router /bin/bash
+    local port_num=$2
+    docker run --name $host_name --privileged -h $host_name -v $PWD/$1:/tmp -p $port_num:8080 -itd ttsubo/simple-router /bin/bash
     docker exec $host_name cp /tmp/OpenFlow.ini /root/simpleRouter/rest-client
     docker exec $host_name cp /tmp/lagopus.conf /usr/local/etc/lagopus
     docker exec $host_name cp /tmp/start_lagopus.sh /root
@@ -55,7 +56,7 @@ set_redistributeConnect() {
 
 deploy_testServer() {
     local host_name=$1
-    docker run --name $host_name --privileged -h $host_name -itd ttsubo/test-server /bin/bash
+    docker run --name $host_name --privileged -h $host_name -p 10080:8080 -itd ttsubo/test-server /bin/bash
 }
 
 deploy_host() {
@@ -100,7 +101,7 @@ case "$1" in
         create_link br10 eth3 pc2 192.168.0.8/24
 
         # deploy for BGP1
-        deploy_simpleRouter BGP1
+        deploy_simpleRouter BGP1 8081
         create_link br101 eth1 BGP1 0.0.0.0/0
         create_link br104 eth2 BGP1 0.0.0.0/0
         create_link br105 eth3 BGP1 0.0.0.0/0
@@ -115,7 +116,7 @@ case "$1" in
         create_link br10 eth10 BGP1 192.168.0.1/24
 
         # deploy for BGP2
-        deploy_simpleRouter BGP2
+        deploy_simpleRouter BGP2 8082
         create_link br102 eth1 BGP2 0.0.0.0/0
         create_link br104 eth2 BGP2 0.0.0.0/0
         create_link br106 eth3 BGP2 0.0.0.0/0
@@ -130,7 +131,7 @@ case "$1" in
         create_link br10 eth10 BGP2 192.168.0.2/24
 
         # deploy for BGP3
-        deploy_simpleRouter BGP3
+        deploy_simpleRouter BGP3 8083
         create_link br105 eth1 BGP3 0.0.0.0/0
         create_link br106 eth2 BGP3 0.0.0.0/0
         create_link br109 eth3 BGP3 0.0.0.0/0
@@ -143,7 +144,7 @@ case "$1" in
         create_link br10 eth8 BGP3 192.168.0.3/24
 
         # deploy for BGP4
-        deploy_simpleRouter BGP4
+        deploy_simpleRouter BGP4 8084
         create_link br101 eth1 BGP4 0.0.0.0/0
         create_link br103 eth2 BGP4 0.0.0.0/0
         create_link br107 eth3 BGP4 0.0.0.0/0
@@ -158,7 +159,7 @@ case "$1" in
         create_link br10 eth10 BGP4 192.168.0.4/24
 
         # deploy for BGP5
-        deploy_simpleRouter BGP5
+        deploy_simpleRouter BGP5 8085
         create_link br102 eth1 BGP5 0.0.0.0/0
         create_link br103 eth2 BGP5 0.0.0.0/0
         create_link br108 eth3 BGP5 0.0.0.0/0
@@ -173,7 +174,7 @@ case "$1" in
         create_link br10 eth10 BGP5 192.168.0.5/24
 
         # deploy for BGP6
-        deploy_simpleRouter BGP6
+        deploy_simpleRouter BGP6 8086
         create_link br107 eth1 BGP6 0.0.0.0/0
         create_link br108 eth2 BGP6 0.0.0.0/0
         create_link br110 eth3 BGP6 0.0.0.0/0
