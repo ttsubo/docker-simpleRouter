@@ -9,12 +9,10 @@ RUN apt-get install -y libxml2-dev
 RUN apt-get install -y git
 RUN pip install --upgrade six
 WORKDIR /root
-RUN git clone https://github.com/osrg/ryu.git
+RUN git clone https://github.com/ttsubo/ryu.git
+WORKDIR /root/ryu
+RUN git checkout bgpSimulator
 WORKDIR /root/ryu/tools
 RUN pip install -r pip-requires
 WORKDIR /root/ryu
 RUN python ./setup.py install
-
-### Install Test_automation
-WORKDIR /root
-RUN git clone https://github.com/ttsubo2000/Test_automation.git

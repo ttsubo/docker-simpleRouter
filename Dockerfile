@@ -1,1 +1,1 @@
-Dockerfile_dir/Dockerfile_simpleRouter
+Dockerfile_dir/Dockerfile_bgpSimulator

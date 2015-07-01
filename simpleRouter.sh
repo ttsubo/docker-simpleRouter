@@ -35,15 +35,19 @@ run_simpleRouter() {
     fi
 }
 
-run_TestAutomation() {
+run_bgpSimulator() {
     local host_name=$1
     docker exec $host_name echo "####################"
     docker exec $host_name echo "start $host_name ..."
     docker exec $host_name echo "####################"
+    docker exec $host_name bash -c "cd /root/ryu/bgpSimulator/ryu-app && ryu-manager bgpSimulator.py --log-config-file logging.conf" &
     docker exec $host_name sleep 5
-    docker exec $host_name bash -c "cd /root/Test_automation && ryu-manager testController.py" &
+    docker exec $host_name bash -c "cd /root/ryu/bgpSimulator/rest-client && ./post_start_bgpspeaker.sh" > /dev/null
     docker exec $host_name sleep 5
-    docker exec $host_name bash -c "cd /root/Test_automation/rest-client && ./regist_target.bat" &
+    docker exec $host_name bash -c "cd /root/ryu/bgpSimulator/rest-client && ./post_vrf.sh" > /dev/null
+    docker exec $host_name sleep 5
+    docker exec $host_name bash -c "cd /root/ryu/bgpSimulator/rest-client && ./post_interface.sh" > /dev/null
+
 }
 
 set_redistributeConnect() {
@@ -54,9 +58,9 @@ set_redistributeConnect() {
     docker exec $host_name bash -c "cd /root/simpleRouter/rest-client && ./post_redistributeConnect_on.sh" > /dev/null
 }
 
-deploy_testServer() {
+deploy_bgpSimulator() {
     local host_name=$1
-    docker run --name $host_name --privileged -h $host_name -p 10080:8080 -itd ttsubo/test-server /bin/bash
+    docker run --name $host_name --privileged -h $host_name -p 10080:8080 -itd ttsubo/bgp-simulator /bin/bash
 }
 
 deploy_host() {
@@ -186,9 +190,9 @@ case "$1" in
         create_link br208 eth7 BGP6 192.168.108.101/30 00:00:00:00:06:02
         create_link br10 eth8 BGP6 192.168.0.6/24
 
-        # deploy for testServer
-        deploy_testServer TestServer
-        create_link br10 eth1 TestServer 192.168.0.100/24
+        # deploy for bgpSimulator
+        deploy_bgpSimulator bgpSimulator
+        create_link br10 eth1 bgpSimulator 192.168.0.100/24
 
         # run for simpleRouter
         run_simpleRouter BGP1
@@ -199,8 +203,8 @@ case "$1" in
         run_simpleRouter BGP6
         sleep 30
 
-        # run for TestAutomation
-        run_TestAutomation TestServer
+        # run for bgpSimulator
+#        run_bgpSimulator bgpSimulator
 
         # set redistributeConnect
         set_redistributeConnect BGP3
@@ -242,7 +246,7 @@ case "$1" in
         sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
         sudo sh -c "echo deb https://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list"
         sudo apt-get update
-        sudo apt-get install -y --force-yes lxc-docker-1.6.0
+        sudo apt-get install -y --force-yes lxc-docker-1.7.0
         sudo ln -sf /usr/bin/docker.io /usr/local/bin/docker
         sudo gpasswd -a `whoami` docker
         sudo wget https://raw.github.com/jpetazzo/pipework/master/pipework -O /usr/local/bin/pipework
