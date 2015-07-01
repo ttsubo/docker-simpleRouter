@@ -46,15 +46,15 @@ Installation ...
 Checking version in docker
 
 	$ docker version
-	Client version: 1.6.0
-	Client API version: 1.18
+	Client version: 1.7.0
+	Client API version: 1.19
 	Go version (client): go1.4.2
-	Git commit (client): 4749651
+	Git commit (client): 0baf609
 	OS/Arch (client): linux/amd64
-	Server version: 1.6.0
-	Server API version: 1.18
+	Server version: 1.7.0
+	Server API version: 1.19
 	Go version (server): go1.4.2
-	Git commit (server): 4749651
+	Git commit (server): 0baf609
 	OS/Arch (server): linux/amd64
 
 
@@ -85,10 +85,10 @@ Checking the result of pulling docker images from Docker-Hub
 
 	$ docker images
 	REPOSITORY             TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
-	ttsubo/simple-router   latest              c821b66edd00        2 weeks ago         960.8 MB
-	ttsubo/test-server     latest              b003817a7f6e        2 weeks ago         510 MB
-	ttsubo/pc-term         latest              af1d34b3d434        3 weeks ago         253.7 MB
-	ubuntu                 14.04.2             07f8e8c5e660        4 weeks ago         188.3 MB
+	ubuntu                 14.04.2             6d4946999d4f        2 weeks ago         188.3 MB
+	ttsubo/simple-router   latest              c821b66edd00        7 weeks ago         960.8 MB
+	ttsubo/test-server     latest              b003817a7f6e        7 weeks ago         510 MB
+	ttsubo/pc-term         latest              af1d34b3d434        7 weeks ago         253.7 MB
 
 
 ### install package for Robot Framework
