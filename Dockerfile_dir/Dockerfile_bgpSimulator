@@ -16,3 +16,4 @@ WORKDIR /root/ryu/tools
 RUN pip install -r pip-requires
 WORKDIR /root/ryu
 RUN python ./setup.py install
+WORKDIR /root/ryu/bgpSimulator

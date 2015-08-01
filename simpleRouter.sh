@@ -204,7 +204,7 @@ case "$1" in
         sleep 30
 
         # run for bgpSimulator
-#        run_bgpSimulator bgpSimulator
+        run_bgpSimulator bgpSimulator
 
         # set redistributeConnect
         set_redistributeConnect BGP3
