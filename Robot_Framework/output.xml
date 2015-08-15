@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generated="20150801 02:50:57.300" generator="Robot 2.8.7 (Python 2.7.6 on linux2)">
+<suite source="/home/tsubo/docker-simpleRouter/Robot_Framework/Tests/test2_delete_route.robot" id="s1" name="Test2 Delete Route">
+<test id="s1-t1" name="(2-1) Delete prefix(172.16.0.0/24) in vrf(65010:101) in Router(BGP6)">
+<kw type="kw" name="${route} = Collections.Create Dictionary">
+<doc>Creates and returns a dictionary based on given items.</doc>
+<arguments>
+<arg>destination=${DESTINATION}</arg>
+<arg>netmask=${NETMASK}</arg>
+<arg>vrf_routeDist=${VRF_ROUTEDIST}</arg>
+</arguments>
+<msg timestamp="20150801 02:50:57.443" level="INFO">${route} = {'vrf_routeDist': u'65010:101', 'netmask': u'255.255.255.0', 'destination': u'172.16.0.0'}</msg>
+<status status="PASS" endtime="20150801 02:50:57.443" starttime="20150801 02:50:57.442"></status>
+</kw>
+<kw type="kw" name="delete_route.Delete Route">
+<doc></doc>
+<arguments>
+<arg>${route}</arg>
+<arg>${myhost}</arg>
+<arg>${myport}</arg>
+</arguments>
+<kw type="kw" name="${headers} = Collections.Create Dictionary">
+<doc>Creates and returns a dictionary based on given items.</doc>
+<arguments>
+<arg>Content-Type=application/json</arg>
+</arguments>
+<msg timestamp="20150801 02:50:57.449" level="INFO">${headers} = {'Content-Type': u'application/json'}</msg>
+<status status="PASS" endtime="20150801 02:50:57.449" starttime="20150801 02:50:57.445"></status>
+</kw>
+<kw type="kw" name="RequestsLibrary.Create Session">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>${host}</arg>
+<arg>http://127.0.0.1:${port}</arg>
+<arg>${headers}</arg>
+</arguments>
+<msg timestamp="20150801 02:50:57.457" level="INFO">Argument types are:
+&lt;type 'bool'&gt;</msg>
+<status status="PASS" endtime="20150801 02:50:57.458" starttime="20150801 02:50:57.450"></status>
+</kw>
+<kw type="kw" name="${data} = Collections.Create Dictionary">
+<doc>Creates and returns a dictionary based on given items.</doc>
+<arguments>
+<arg>route=${route}</arg>
+</arguments>
+<msg timestamp="20150801 02:50:57.459" level="INFO">${data} = {'route': {'vrf_routeDist': u'65010:101', 'netmask': u'255.255.255.0', 'destination': u'172.16.0.0'}}</msg>
+<status status="PASS" endtime="20150801 02:50:57.459" starttime="20150801 02:50:57.458"></status>
+</kw>
+<kw type="kw" name="${data} = Lib.conversions.Get Json From Dict">
+<doc></doc>
+<arguments>
+<arg>${data}</arg>
+</arguments>
+<msg timestamp="20150801 02:50:57.460" level="INFO">${data} = {"route": {"vrf_routeDist": "65010:101", "netmask": "255.255.255.0", "destination": "172.16.0.0"}}</msg>
+<status status="PASS" endtime="20150801 02:50:57.460" starttime="20150801 02:50:57.459"></status>
+</kw>
+<kw type="kw" name="${result} = RequestsLibrary.Delete">
+<doc>* * *   Depricated - See Delete Request now   * * *</doc>
+<arguments>
+<arg>${host}</arg>
+<arg>/openflow/0000000000000001/route</arg>
+<arg>${data}</arg>
+</arguments>
+<msg timestamp="20150801 02:50:57.468" level="INFO">Starting new HTTP connection (1): 127.0.0.1</msg>
+<msg timestamp="20150801 02:50:57.477" level="INFO">Deprication Warning  Use Delete Request in the future</msg>
+<msg timestamp="20150801 02:50:57.477" level="INFO">${result} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20150801 02:50:57.477" starttime="20150801 02:50:57.460"></status>
+</kw>
+<kw type="kw" name="BuiltIn.Log">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${result.status_code}</arg>
+</arguments>
+<msg timestamp="20150801 02:50:57.483" level="INFO">200</msg>
+<status status="PASS" endtime="20150801 02:50:57.483" starttime="20150801 02:50:57.482"></status>
+</kw>
+<kw type="kw" name="BuiltIn.Log">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${result.json()}</arg>
+</arguments>
+<msg timestamp="20150801 02:50:57.484" level="INFO">{u'route': {u'vrf_routeDist': u'65010:101', u'netmask': u'255.255.255.0', u'destination': u'172.16.0.0'}, u'id': u'0000000000000001'}</msg>
+<status status="PASS" endtime="20150801 02:50:57.485" starttime="20150801 02:50:57.484"></status>
+</kw>
+<kw type="kw" name="BuiltIn.Should Be Equal As Strings">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${result.status_code}</arg>
+<arg>200</arg>
+</arguments>
+<msg timestamp="20150801 02:50:57.491" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20150801 02:50:57.491" starttime="20150801 02:50:57.485"></status>
+</kw>
+<status status="PASS" endtime="20150801 02:50:57.491" starttime="20150801 02:50:57.444"></status>
+</kw>
+<doc></doc>
+<tags>
+</tags>
+<status status="PASS" endtime="20150801 02:50:57.492" critical="yes" starttime="20150801 02:50:57.440"></status>
+</test>
+<test id="s1-t2" name="(2-2) Check No previous prefix in RoutingTable in Peer Router(BGP4)">
+<kw type="kw" name="BuiltIn.Wait Until Keyword Succeeds">
+<doc>Waits until the specified keyword succeeds or the given timeout expires.</doc>
+<arguments>
+<arg>60s</arg>
+<arg>10s</arg>
+<arg>Check Rib_no_prefix information</arg>
+<arg>${peerhost}</arg>
+<arg>${peerport}</arg>
+<arg>${check_prefix}</arg>
+</arguments>
+<kw type="kw" name="get_rib.Check Rib_no_prefix information">
+<doc></doc>
+<arguments>
+<arg>${peerhost}</arg>
+<arg>${peerport}</arg>
+<arg>${check_prefix}</arg>
+</arguments>
+<kw type="kw" name="${result} = get_rib.Get Rib">
+<doc></doc>
+<arguments>
+<arg>${host}</arg>
+<arg>${port}</arg>
+</arguments>
+<kw type="kw" name="${headers} = Collections.Create Dictionary">
+<doc>Creates and returns a dictionary based on given items.</doc>
+<arguments>
+<arg>Content-Type=application/json</arg>
+</arguments>
+<msg timestamp="20150801 02:50:57.507" level="INFO">${headers} = {'Content-Type': u'application/json'}</msg>
+<status status="PASS" endtime="20150801 02:50:57.507" starttime="20150801 02:50:57.506"></status>
+</kw>
+<kw type="kw" name="RequestsLibrary.Create Session">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>${host}</arg>
+<arg>http://127.0.0.1:${port}</arg>
+<arg>${headers}</arg>
+</arguments>
+<msg timestamp="20150801 02:50:57.508" level="INFO">Argument types are:
+&lt;type 'bool'&gt;</msg>
+<status status="PASS" endtime="20150801 02:50:57.508" starttime="20150801 02:50:57.507"></status>
+</kw>
+<kw type="kw" name="${result} = RequestsLibrary.Get Request">
+<doc>Send a GET request on the session object found using the</doc>
+<arguments>
+<arg>${host}</arg>
+<arg>/openflow/0000000000000001/rib</arg>
+</arguments>
+<msg timestamp="20150801 02:50:57.509" level="INFO">Starting new HTTP connection (1): 127.0.0.1</msg>
+<msg timestamp="20150801 02:50:57.548" level="INFO">${result} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20150801 02:50:57.547" starttime="20150801 02:50:57.508"></status>
+</kw>
+<kw type="kw" name="BuiltIn.Log">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${result.status_code}</arg>
+</arguments>
+<msg timestamp="20150801 02:50:57.549" level="INFO">200</msg>
+<status status="PASS" endtime="20150801 02:50:57.549" starttime="20150801 02:50:57.548"></status>
+</kw>
+<kw type="kw" name="BuiltIn.Log">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${result.json()['rib']}</arg>
+</arguments>
+<msg timestamp="20150801 02:50:57.555" level="INFO">Status codes: * valid, &gt; best
+Origin codes: i - IGP, e - EGP, ? - incomplete
+     Network                          Labels   Next Hop             Reason          Metric LocPrf Path
+ *&gt;  65010:101:172.16.0.0/24          [601]    192.168.107.101      Only Path              100    ?
+ *&gt;  65010:101:192.168.1.102/32       [300]    192.168.101.102      Only Path       100           65011 ?
+ *&gt;  65010:101:192.168.2.101/32       [600]    192.168.107.101      Only Path              100    ?
+</msg>
+<status status="PASS" endtime="20150801 02:50:57.555" starttime="20150801 02:50:57.554"></status>
+</kw>
+<kw type="kw" name="BuiltIn.Should Be Equal As Strings">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${result.status_code}</arg>
+<arg>200</arg>
+</arguments>
+<msg timestamp="20150801 02:50:57.557" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20150801 02:50:57.557" starttime="20150801 02:50:57.556"></status>
+</kw>
+<msg timestamp="20150801 02:50:57.560" level="INFO">${result} = Status codes: * valid, &gt; best
+Origin codes: i - IGP, e - EGP, ? - incomplete
+     Network                          Labels   Next Hop             Reason          Metric LocPrf Path
+ *&gt;  65010:101:172.1...</msg>
+<status status="PASS" endtime="20150801 02:50:57.559" starttime="20150801 02:50:57.501"></status>
+</kw>
+<kw type="kw" name="BuiltIn.Should Not Contain">
+<doc>Fails if `item1` contains `item2` one or more times.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>${check_prefix}</arg>
+</arguments>
+<msg timestamp="20150801 02:50:57.561" level="FAIL">'Status codes: * valid, &gt; best
+Origin codes: i - IGP, e - EGP, ? - incomplete
+     Network                          Labels   Next Hop             Reason          Metric LocPrf Path
+ *&gt;  65010:101:172.16.0.0/24          [601]    192.168.107.101      Only Path              100    ?
+ *&gt;  65010:101:192.168.1.102/32       [300]    192.168.101.102      Only Path       100           65011 ?
+ *&gt;  65010:101:192.168.2.101/32       [600]    192.168.107.101      Only Path              100    ?
+' contains '65010:101:172.16.0.0/24'</msg>
+<status status="FAIL" endtime="20150801 02:50:57.561" starttime="20150801 02:50:57.560"></status>
+</kw>
+<status status="FAIL" endtime="20150801 02:50:57.564" starttime="20150801 02:50:57.500"></status>
+</kw>
+<kw type="kw" name="get_rib.Check Rib_no_prefix information">
+<doc></doc>
+<arguments>
+<arg>${peerhost}</arg>
+<arg>${peerport}</arg>
+<arg>${check_prefix}</arg>
+</arguments>
+<kw type="kw" name="${result} = get_rib.Get Rib">
+<doc></doc>
+<arguments>
+<arg>${host}</arg>
+<arg>${port}</arg>
+</arguments>
+<kw type="kw" name="${headers} = Collections.Create Dictionary">
+<doc>Creates and returns a dictionary based on given items.</doc>
+<arguments>
+<arg>Content-Type=application/json</arg>
+</arguments>
+<msg timestamp="20150801 02:51:07.583" level="INFO">${headers} = {'Content-Type': u'application/json'}</msg>
+<status status="PASS" endtime="20150801 02:51:07.582" starttime="20150801 02:51:07.582"></status>
+</kw>
+<kw type="kw" name="RequestsLibrary.Create Session">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>${host}</arg>
+<arg>http://127.0.0.1:${port}</arg>
+<arg>${headers}</arg>
+</arguments>
+<msg timestamp="20150801 02:51:07.584" level="INFO">Argument types are:
+&lt;type 'bool'&gt;</msg>
+<status status="PASS" endtime="20150801 02:51:07.584" starttime="20150801 02:51:07.583"></status>
+</kw>
+<kw type="kw" name="${result} = RequestsLibrary.Get Request">
+<doc>Send a GET request on the session object found using the</doc>
+<arguments>
+<arg>${host}</arg>
+<arg>/openflow/0000000000000001/rib</arg>
+</arguments>
+<msg timestamp="20150801 02:51:07.585" level="INFO">Starting new HTTP connection (1): 127.0.0.1</msg>
+<msg timestamp="20150801 02:51:07.627" level="INFO">${result} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20150801 02:51:07.627" starttime="20150801 02:51:07.584"></status>
+</kw>
+<kw type="kw" name="BuiltIn.Log">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${result.status_code}</arg>
+</arguments>
+<msg timestamp="20150801 02:51:07.628" level="INFO">200</msg>
+<status status="PASS" endtime="20150801 02:51:07.628" starttime="20150801 02:51:07.627"></status>
+</kw>
+<kw type="kw" name="BuiltIn.Log">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${result.json()['rib']}</arg>
+</arguments>
+<msg timestamp="20150801 02:51:07.628" level="INFO">Status codes: * valid, &gt; best
+Origin codes: i - IGP, e - EGP, ? - incomplete
+     Network                          Labels   Next Hop             Reason          Metric LocPrf Path
+ *&gt;  65010:101:192.168.1.102/32       [300]    192.168.101.102      Only Path       100           65011 ?
+ *&gt;  65010:101:192.168.2.101/32       [600]    192.168.107.101      Only Path              100    ?
+</msg>
+<status status="PASS" endtime="20150801 02:51:07.629" starttime="20150801 02:51:07.628"></status>
+</kw>
+<kw type="kw" name="BuiltIn.Should Be Equal As Strings">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${result.status_code}</arg>
+<arg>200</arg>
+</arguments>
+<msg timestamp="20150801 02:51:07.629" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20150801 02:51:07.629" starttime="20150801 02:51:07.629"></status>
+</kw>
+<msg timestamp="20150801 02:51:07.633" level="INFO">${result} = Status codes: * valid, &gt; best
+Origin codes: i - IGP, e - EGP, ? - incomplete
+     Network                          Labels   Next Hop             Reason          Metric LocPrf Path
+ *&gt;  65010:101:192.1...</msg>
+<status status="PASS" endtime="20150801 02:51:07.633" starttime="20150801 02:51:07.576"></status>
+</kw>
+<kw type="kw" name="BuiltIn.Should Not Contain">
+<doc>Fails if `item1` contains `item2` one or more times.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>${check_prefix}</arg>
+</arguments>
+<status status="PASS" endtime="20150801 02:51:07.634" starttime="20150801 02:51:07.633"></status>
+</kw>
+<status status="PASS" endtime="20150801 02:51:07.634" starttime="20150801 02:51:07.574"></status>
+</kw>
+<status status="PASS" endtime="20150801 02:51:07.634" starttime="20150801 02:50:57.500"></status>
+</kw>
+<doc></doc>
+<tags>
+</tags>
+<status status="PASS" endtime="20150801 02:51:07.635" critical="yes" starttime="20150801 02:50:57.498"></status>
+</test>
+<test id="s1-t3" name="(2-3) check No reachability from pc1(192.168.1.102) to pc2(172.16.0.101)">
+<kw type="kw" name="BuiltIn.Sleep">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>30 seconds</arg>
+</arguments>
+<status status="FAIL" endtime="20150801 02:51:11.567" starttime="20150801 02:51:07.639"></status>
+</kw>
+<doc></doc>
+<tags>
+</tags>
+<status status="FAIL" endtime="20150801 02:51:11.567" critical="yes" starttime="20150801 02:51:07.638">Execution terminated by signal</status>
+</test>
+<doc></doc>
+<metadata>
+</metadata>
+<status status="FAIL" endtime="20150801 02:51:11.569" starttime="20150801 02:50:57.301"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="1" pass="2">Critical Tests</stat>
+<stat fail="1" pass="2">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat fail="1" pass="2" id="s1" name="Test2 Delete Route">Test2 Delete Route</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
