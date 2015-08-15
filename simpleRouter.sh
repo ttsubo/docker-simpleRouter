@@ -12,6 +12,7 @@ deploy_simpleRouter() {
     local port_num=$2
     docker run --name $host_name --privileged -h $host_name -v $PWD/$1:/tmp -p $port_num:8080 -itd ttsubo/simple-router /bin/bash
     docker exec $host_name cp /tmp/OpenFlow.ini /root/simpleRouter/rest-client
+    docker exec $host_name mkdir /usr/local/etc/lagopus
     docker exec $host_name cp /tmp/lagopus.conf /usr/local/etc/lagopus
     docker exec $host_name cp /tmp/start_lagopus.sh /root
 }
