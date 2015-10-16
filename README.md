@@ -23,7 +23,7 @@ Therefore, LagopusSwitch works as Raw-socket edition
 	DISTRIB_ID=Ubuntu
 	DISTRIB_RELEASE=14.04
 	DISTRIB_CODENAME=trusty
-	DISTRIB_DESCRIPTION="Ubuntu 14.04.2 LTS"
+	DISTRIB_DESCRIPTION="Ubuntu 14.04.3 LTS"
 
 Installation
 ==========
