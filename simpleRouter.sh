@@ -249,7 +249,7 @@ case "$1" in
         sudo wget https://raw.github.com/jpetazzo/pipework/master/pipework -O /usr/local/bin/pipework
         sudo chmod 755 /usr/local/bin/pipework
         sudo apt-get install -y --force-yes iputils-arping bridge-utils tcpdump lv ethtool python
-        sudo docker pull ubuntu:14.04.2
+        sudo docker pull ubuntu:14.04.3
         sudo mkdir -p /var/run/netns
         ;;
     *)
