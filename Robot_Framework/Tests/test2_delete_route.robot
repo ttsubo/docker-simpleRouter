@@ -28,8 +28,3 @@ ${expected_value}  NG
     ...  ${peerport}
     ...  ${check_prefix}
 
-(2-3) check No reachability from pc1(192.168.1.102) to pc2(172.16.0.101)
-    Sleep  30 seconds
-    ${result}=  Get Event
-    Sleep  10 seconds
-    Should Be Equal As Strings  ${result}  ${expected_value}

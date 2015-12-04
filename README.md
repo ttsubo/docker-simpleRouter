@@ -47,16 +47,21 @@ Installation ...
 Checking version in docker
 
 	$ docker version
-	Client version: 1.7.0
-	Client API version: 1.19
-	Go version (client): go1.4.2
-	Git commit (client): 0baf609
-	OS/Arch (client): linux/amd64
-	Server version: 1.7.0
-	Server API version: 1.19
-	Go version (server): go1.4.2
-	Git commit (server): 0baf609
-	OS/Arch (server): linux/amd64
+	Client:
+	 Version:      1.9.1
+	 API version:  1.21
+	 Go version:   go1.4.3
+	 Git commit:   a34a1d5
+	 Built:        Fri Nov 20 17:56:04 UTC 2015
+	 OS/Arch:      linux/amd64
+
+	Server:
+	 Version:      1.9.1
+	 API version:  1.21
+	 Go version:   go1.4.3
+	 Git commit:   a34a1d5
+	 Built:        Fri Nov 20 17:56:04 UTC 2015
+	 OS/Arch:      linux/amd64
 
 
 ### download images from Docker-Hub

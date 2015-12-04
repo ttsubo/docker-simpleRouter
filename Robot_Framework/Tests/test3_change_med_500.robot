@@ -26,8 +26,3 @@ ${expected_value}  OK
     ...  ${peerport}
     ...  ${check_med}
 
-(3-3) check reachability from pc1(192.168.1.102) to pc2(192.168.2.101)
-    Sleep  30 seconds
-    ${result}=  Get Event
-    Sleep  10 seconds
-    Should Be Equal As Strings  ${result}  ${expected_value}
