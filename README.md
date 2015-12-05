@@ -46,16 +46,21 @@ Installation ...
 Checking version in docker
 
 	$ docker version
-	Client version: 1.7.0
-	Client API version: 1.19
-	Go version (client): go1.4.2
-	Git commit (client): 0baf609
-	OS/Arch (client): linux/amd64
-	Server version: 1.7.0
-	Server API version: 1.19
-	Go version (server): go1.4.2
-	Git commit (server): 0baf609
-	OS/Arch (server): linux/amd64
+	Client:
+	 Version:      1.9.1
+	 API version:  1.21
+	 Go version:   go1.4.3
+	 Git commit:   a34a1d5
+	 Built:        Fri Nov 20 17:56:04 UTC 2015
+	 OS/Arch:      linux/amd64
+
+	Server:
+	 Version:      1.9.1
+	 API version:  1.21
+	 Go version:   go1.4.3
+	 Git commit:   a34a1d5
+	 Built:        Fri Nov 20 17:56:04 UTC 2015
+	 OS/Arch:      linux/amd64
 
 
 ### download images from Docker-Hub
@@ -84,11 +89,11 @@ docker pull images for test-server
 Checking the result of pulling docker images from Docker-Hub
 
 	$ docker images
-	REPOSITORY             TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
-	ubuntu                 14.04.2             6d4946999d4f        2 weeks ago         188.3 MB
-	ttsubo/simple-router   latest              c821b66edd00        7 weeks ago         960.8 MB
-	ttsubo/test-server     latest              b003817a7f6e        7 weeks ago         510 MB
-	ttsubo/pc-term         latest              af1d34b3d434        7 weeks ago         253.7 MB
+	REPOSITORY                  TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+	ubuntu                      14.04.3             ca4d7b1b9a51        3 weeks ago         187.9 MB
+	ttsubo/simple-router        latest              6dc896a61946        4 weeks ago         1.032 GB
+	ttsubo/test-server          latest              fa9be3b133b7        4 months ago        520.9 MB
+	ttsubo/pc-term              latest              af1d34b3d434        7 months ago        253.7 MB
 
 
 ### install package for Robot Framework
@@ -118,16 +123,16 @@ You can start simpleRouter as bellow
 Checking running of container list
 
 	$ docker ps
-	CONTAINER ID        IMAGE                         COMMAND             CREATED             STATUS              PORTS                     NAMES
-	3b455cf31971        ttsubo/test-server:latest     "/bin/bash"         3 minutes ago       Up 3 minutes        0.0.0.0:10080->8080/tcp   TestServer          
-	b0bd88248ee8        ttsubo/simple-router:latest   "/bin/bash"         3 minutes ago       Up 3 minutes        0.0.0.0:8086->8080/tcp    BGP6                
-	daa2d1ba484b        ttsubo/simple-router:latest   "/bin/bash"         3 minutes ago       Up 3 minutes        0.0.0.0:8085->8080/tcp    BGP5                
-	f7e0ea2b9a5b        ttsubo/simple-router:latest   "/bin/bash"         3 minutes ago       Up 3 minutes        0.0.0.0:8084->8080/tcp    BGP4                
-	35dfe5046507        ttsubo/simple-router:latest   "/bin/bash"         3 minutes ago       Up 3 minutes        0.0.0.0:8083->8080/tcp    BGP3                
-	e9b9c5b95857        ttsubo/simple-router:latest   "/bin/bash"         3 minutes ago       Up 3 minutes        0.0.0.0:8082->8080/tcp    BGP2                
-	120a454e6ac3        ttsubo/simple-router:latest   "/bin/bash"         3 minutes ago       Up 3 minutes        0.0.0.0:8081->8080/tcp    BGP1                
-	13c062d72e11        ttsubo/pc-term:latest         "/bin/bash"         3 minutes ago       Up 3 minutes                                  pc2                 
-	3e4eaf915abd        ttsubo/pc-term:latest         "/bin/bash"         3 minutes ago       Up 3 minutes                                  pc1 
+	CONTAINER ID        IMAGE                  COMMAND             CREATED             STATUS              PORTS                     NAMES
+	b53641af561e        ttsubo/test-server     "/bin/bash"         4 minutes ago       Up 4 minutes        0.0.0.0:10080->8080/tcp   TestServer
+	c08e0fe06987        ttsubo/simple-router   "/bin/bash"         4 minutes ago       Up 4 minutes        0.0.0.0:8086->8080/tcp    BGP6
+	e8d906bb14c7        ttsubo/simple-router   "/bin/bash"         4 minutes ago       Up 4 minutes        0.0.0.0:8085->8080/tcp    BGP5
+	608dfdf65ca5        ttsubo/simple-router   "/bin/bash"         4 minutes ago       Up 4 minutes        0.0.0.0:8084->8080/tcp    BGP4
+	abd9fb1ed9a7        ttsubo/simple-router   "/bin/bash"         4 minutes ago       Up 4 minutes        0.0.0.0:8083->8080/tcp    BGP3
+	7344fc703e0e        ttsubo/simple-router   "/bin/bash"         4 minutes ago       Up 4 minutes        0.0.0.0:8082->8080/tcp    BGP2
+	67fa79a2ffda        ttsubo/simple-router   "/bin/bash"         4 minutes ago       Up 4 minutes        0.0.0.0:8081->8080/tcp    BGP1
+	b880b21d83cd        ttsubo/pc-term         "/bin/bash"         4 minutes ago       Up 4 minutes                                  pc2
+	f6474039b496        ttsubo/pc-term         "/bin/bash"         4 minutes ago       Up 4 minutes
 
 
 
@@ -148,17 +153,18 @@ As a result, deploying virtual network for MPLS-VPN like this
 For example, you can access container 'pc1' for executing ping from pc1 to pc2
 
 	$ docker exec -it pc1 bash
+
 	root@pc1:/# ping 192.168.2.101
 	PING 192.168.2.101 (192.168.2.101) 56(84) bytes of data.
-	64 bytes from 192.168.2.101: icmp_seq=1 ttl=64 time=41.9 ms
-	64 bytes from 192.168.2.101: icmp_seq=2 ttl=64 time=32.2 ms
-	64 bytes from 192.168.2.101: icmp_seq=3 ttl=64 time=31.4 ms
-	64 bytes from 192.168.2.101: icmp_seq=4 ttl=64 time=33.5 ms
-	64 bytes from 192.168.2.101: icmp_seq=5 ttl=64 time=43.4 ms
+	64 bytes from 192.168.2.101: icmp_seq=1 ttl=64 time=29.5 ms
+	64 bytes from 192.168.2.101: icmp_seq=2 ttl=64 time=21.3 ms
+	64 bytes from 192.168.2.101: icmp_seq=3 ttl=64 time=36.1 ms
+	64 bytes from 192.168.2.101: icmp_seq=4 ttl=64 time=34.8 ms
+	64 bytes from 192.168.2.101: icmp_seq=5 ttl=64 time=24.1 ms
 	^C
 	--- 192.168.2.101 ping statistics ---
 	5 packets transmitted, 5 received, 0% packet loss, time 4007ms
-	rtt min/avg/max/mdev = 31.426/36.520/43.478/5.131 ms
+	rtt min/avg/max/mdev = 21.340/29.207/36.165/5.794 ms
 
 
 For example, you can access container 'BGP3' for checking show-rib 
@@ -166,6 +172,7 @@ For example, you can access container 'BGP3' for checking show-rib
 	$ docker exec -it BGP3 bash
 	root@BGP3:~# cd simpleRouter/rest-client
 	root@BGP3:~/simpleRouter/rest-client# ./get_rib.sh 
+
 	======================================================================
 	get_rib
 	======================================================================
@@ -174,16 +181,15 @@ For example, you can access container 'BGP3' for checking show-rib
 	reply: 'HTTP/1.1 200 OK\r\n'
 	header: Content-Type: application/json; charset=UTF-8
 	header: Content-Length: 459
-	header: Date: Fri, 29 May 2015 22:50:54 GMT
+	header: Date: Sat, 05 Dec 2015 05:47:11 GMT
 	+++++++++++++++++++++++++++++++
-	2015/05/29 22:50:54 : Show rib 
+	2015/12/05 05:47:11 : Show rib 
 	+++++++++++++++++++++++++++++++
 	Status codes: * valid, > best
 	Origin codes: i - IGP, e - EGP, ? - incomplete
 	     Network                          Labels   Next Hop             Reason          Metric LocPrf Path
 	 *>  65010:101:192.168.1.102/32       [300]    0.0.0.0              Only Path                     ?
 	 *>  65010:101:192.168.2.101/32       [600]    192.168.105.101      Only Path       100    100    65010 ?
-
 
 
 It looks good!!
@@ -208,9 +214,9 @@ First of all, create prefix in BGP6 ...
 	3 critical tests, 3 passed, 0 failed
 	3 tests total, 3 passed, 0 failed
 	==============================================================================
-	Output:  /home/tsubo/devel/docker-simpleRouter/Robot_Framework/output.xml
-	Log:     /home/tsubo/devel/docker-simpleRouter/Robot_Framework/log.html
-	Report:  /home/tsubo/devel/docker-simpleRouter/Robot_Framework/report.html
+	Output:  /home/tsubo/docker-simpleRouter/Robot_Framework/output.xml
+	Log:     /home/tsubo/docker-simpleRouter/Robot_Framework/log.html
+	Report:  /home/tsubo/docker-simpleRouter/Robot_Framework/report.html
 
 
 Secondary, delete prefix in BGP6 ...
@@ -229,9 +235,9 @@ Secondary, delete prefix in BGP6 ...
 	3 critical tests, 3 passed, 0 failed
 	3 tests total, 3 passed, 0 failed
 	==============================================================================
-	Output:  /home/tsubo/devel/docker-simpleRouter/Robot_Framework/output.xml
-	Log:     /home/tsubo/devel/docker-simpleRouter/Robot_Framework/log.html
-	Report:  /home/tsubo/devel/docker-simpleRouter/Robot_Framework/report.html
+	Output:  /home/tsubo/docker-simpleRouter/Robot_Framework/output.xml
+	Log:     /home/tsubo/docker-simpleRouter/Robot_Framework/log.html
+	Report:  /home/tsubo/docker-simpleRouter/Robot_Framework/report.html
 
 
 You can confirm test results automatically!!
@@ -241,32 +247,25 @@ Let's check Events as test result of test1_create_route.robot.
 You can confirm reachability from pc1(192.168.1.102) to pc2(172.16.0.101)
 
 	$ docker exec -it TestServer bash
+
 	root@TestServer:~# cd Test_automation/
 	root@TestServer:~/Test_automation# cat Test_result.txt 
-	2015/05/29 22:46:12 [1] [OK] [adj_rib_in_changed]
-	2015/05/29 22:53:24 [2] [OK] [adj_rib_in_changed]
-	2015/05/29 22:59:33 [3] [NG] [adj_rib_in_changed(withdraw)]
+	2015/12/05 05:45:45 [1] [OK] [adj_rib_in_changed]
+	2015/12/05 05:49:03 [2] [OK] [adj_rib_in_changed]
+	2015/12/05 05:51:24 [3] [NG] [adj_rib_in_changed(withdraw)]
 
 	root@TestServer:~/Test_automation# cd rest-client/
 	root@TestServer:~/Test_automation/rest-client# ./get_event.sh 2
-	/apgw/event
 
-	{
-	"event": {
-	"event_id": "2"
-	}
-	}
-	(51) accepted ('127.0.0.1', 56468)
-	                                  127.0.0.1 - - [29/May/2015 23:04:25] "POST /apgw/event HTTP/1.1" 200 2035 0.000911
-	                                    -------------------------------------
+	-------------------------------------
 	Event Infomation
 	-------------------------------------
 	event_id      [2]
-	event_time    [2015/05/29 22:53:24]
+	event_time    [2015/12/05 05:49:03]
 	event_type    [adj_rib_in_changed]
 	peer_bgp_id   [10.0.0.1]
 	peer_as       [65010]
-	received_time [2015/05/29 22:53:23]
+	received_time [2015/12/05 05:49:03]
 	vpnv4_prefix  [65010:101:172.16.0.0/24]
 	nexthop       [192.168.101.101]
 
@@ -275,15 +274,15 @@ You can confirm reachability from pc1(192.168.1.102) to pc2(172.16.0.101)
 	-------------------------------------
 	$ ping -c 5 172.16.0.101 -I 192.168.1.102
 	PING 172.16.0.101 (172.16.0.101) from 192.168.1.102 : 56(84) bytes of data.
-	64 bytes from 172.16.0.101: icmp_seq=1 ttl=64 time=29.6 ms
-	64 bytes from 172.16.0.101: icmp_seq=2 ttl=64 time=31.6 ms
-	64 bytes from 172.16.0.101: icmp_seq=3 ttl=64 time=31.2 ms
-	64 bytes from 172.16.0.101: icmp_seq=4 ttl=64 time=35.2 ms
-	64 bytes from 172.16.0.101: icmp_seq=5 ttl=64 time=37.8 ms
+	64 bytes from 172.16.0.101: icmp_seq=1 ttl=64 time=23.1 ms
+	64 bytes from 172.16.0.101: icmp_seq=2 ttl=64 time=24.3 ms
+	64 bytes from 172.16.0.101: icmp_seq=3 ttl=64 time=29.5 ms
+	64 bytes from 172.16.0.101: icmp_seq=4 ttl=64 time=27.3 ms
+	64 bytes from 172.16.0.101: icmp_seq=5 ttl=64 time=21.4 ms
 
 	--- 172.16.0.101 ping statistics ---
-	5 packets transmitted, 5 received, 0% packet loss, time 4007ms
-	rtt min/avg/max/mdev = 29.653/33.116/37.875/2.996 ms
+	5 packets transmitted, 5 received, 0% packet loss, time 4008ms
+	rtt min/avg/max/mdev = 21.498/25.187/29.582/2.922 ms
 
 
 	-------------------------------------
@@ -293,8 +292,8 @@ You can confirm reachability from pc1(192.168.1.102) to pc2(172.16.0.101)
 	Status codes: x filtered
 	Origin codes: i - IGP, e - EGP, ? - incomplete
 	    Timestamp           Network                          Labels   Next Hop             Metric LocPrf Path
-	    2015/05/29 22:46:12 192.168.2.101/32                 None     192.168.101.101      100    None   [65010] ?
-	    2015/05/29 22:53:23 172.16.0.0/24                    None     192.168.101.101      100    None   [65010] ?
+	    2015/12/05 05:45:45 192.168.2.101/32                 None     192.168.101.101      100    None   [65010] ?
+	    2015/12/05 05:49:03 172.16.0.0/24                    None     192.168.101.101      100    None   [65010] ?
 
 
 	-------------------------------------
@@ -304,8 +303,8 @@ You can confirm reachability from pc1(192.168.1.102) to pc2(172.16.0.101)
 	Status codes: * valid, > best
 	Origin codes: i - IGP, e - EGP, ? - incomplete
 	     Network                          Labels   Next Hop             Reason          Metric LocPrf Path
-	 *>  65010:101:172.16.0.0/24          [601]    192.168.101.101      Only Path       100           65010 ?
 	 *>  65010:101:192.168.2.101/32       [600]    192.168.101.101      Only Path       100           65010 ?
+	 *>  65010:101:172.16.0.0/24          [601]    192.168.101.101      Only Path       100           65010 ?
 	 *>  65010:101:192.168.1.102/32       [300]    192.168.105.102      Only Path              100    ?
 
 
@@ -313,24 +312,16 @@ Let's check Events as test result of test2_delete_route.robot.
 You can confirm no reachability from pc1(192.168.1.102) to pc2(172.16.0.101)
 
 	# ./get_event.sh 3
-	/apgw/event
 
-	{
-	"event": {
-	"event_id": "3"
-	}
-	}
-	(51) accepted ('127.0.0.1', 56469)
-	                                  127.0.0.1 - - [29/May/2015 23:04:40] "POST /apgw/event HTTP/1.1" 200 1117 0.014948
-	                                    -------------------------------------
+	-------------------------------------
 	Event Infomation
 	-------------------------------------
 	event_id      [3]
-	event_time    [2015/05/29 22:59:33]
+	event_time    [2015/12/05 05:51:24]
 	event_type    [adj_rib_in_changed(withdraw)]
 	peer_bgp_id   [10.0.0.1]
 	peer_as       [65010]
-	received_time [2015/05/29 22:59:32]
+	received_time [2015/12/05 05:51:24]
 	vpnv4_prefix  [65010:101:172.16.0.0/24]
 	nexthop       [None]
 
@@ -341,7 +332,7 @@ You can confirm no reachability from pc1(192.168.1.102) to pc2(172.16.0.101)
 	PING 172.16.0.101 (172.16.0.101) from 192.168.1.102 : 56(84) bytes of data.
 
 	--- 172.16.0.101 ping statistics ---
-	5 packets transmitted, 0 received, 100% packet loss, time 4002ms
+	5 packets transmitted, 0 received, 100% packet loss, time 4031ms
 
 
 

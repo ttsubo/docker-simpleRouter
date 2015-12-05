@@ -1,4 +1,4 @@
-FROM ubuntu:14.04.2
+FROM ubuntu:14.04.3
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update -y
@@ -17,4 +17,4 @@ RUN python ./setup.py install
 
 ### Install Test_automation
 WORKDIR /root
-RUN git clone https://github.com/ttsubo2000/Test_automation.git
+RUN git clone https://github.com/ttsubo/Test_automation.git
